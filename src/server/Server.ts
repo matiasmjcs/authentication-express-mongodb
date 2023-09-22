@@ -1,9 +1,10 @@
-import express, { Application } from "express";
+import express, { Application, ErrorRequestHandler , Request, Response } from "express";
 import { routerUser } from "../router/user.route";
 import { config } from 'dotenv'; 
 import cors from 'cors';
+import { IServer } from "../interfaces/server.interfaces";
 config();
-export default class Server {
+export default class Server implements IServer{
   private app: Application;
 
   constructor() {
@@ -15,27 +16,26 @@ export default class Server {
   configureMiddleware(): void {
     this.app.use(express.json());
 
-    // Configurar CORS para permitir solicitudes desde http://localhost:5173
     this.app.use(cors({
-      origin: 'http://localhost:5173',
+      origin: process.env.DOMAIN,
       methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-      credentials: true // Si estás utilizando cookies o sesiones
+      credentials: true 
     }));
 
-    this.app.use(this.errorHandler); // Agregar middleware de manejo de errores
+    this.app.use(this.errorHandler);
   }
 
   configureRoutes(): void {
     this.app.use("/users", routerUser);
   }
 
-  errorHandler(err: any, req: express.Request, res: express.Response, next: express.NextFunction): void {
+  errorHandler: ErrorRequestHandler = (err: any, req: Request, res: Response, next: express.NextFunction) => {
     console.error("An error occurred:", err);
     res.status(500).send("Internal Server Error");
   }
 
    start(): void {
-    const port = process.env.PORT; // Usar un puerto especÃ­fico o el valor por defecto
+    const port = process.env.PORT; 
     this.app.listen(port, () => {
       console.log(`Server is running on port ${port}`);
     });

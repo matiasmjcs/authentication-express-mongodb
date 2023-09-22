@@ -1,76 +1,84 @@
-import { Request, Response } from 'express';
-import bcryptjs from 'bcryptjs';
-import User from '../models/user.models'; // Asegúrate de importar correctamente tu modelo User
-import jwt from "jsonwebtoken";
-import { connect } from '../database/database';
+import { Request, Response } from "express";
+import { validationResult } from "express-validator";
+import { DatabaseManager } from "../services/DatabaseManager";
+import { IDatabaseManager } from "../interfaces/databaseManager.interfaces";
+import { IUserService } from "../interfaces/userService.interfaces";
 
-export class UserService {
-    async signUp(req: Request, res: Response) {
-        try {
-            connect()
-            const requestBody = req.body; // No necesitas await aquí
-            const { username, password, email } = requestBody;
-            const user = await User.findOne({ email });
+export class UserService implements IUserService {
+  databaseManager: IDatabaseManager;
+  constructor() {
+    this.databaseManager = new DatabaseManager();
+  }
+  async signUp(req: Request, res: Response): Promise<Response> {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+      const requestBody = req.body;
+      const { username, password, email } = requestBody;
+      const data = {
+        username,
+        email,
+        password,
+      };
+      const result = await this.databaseManager.signUpUser(data);
 
-            if (user) {
-                return res.status(400).json({ error: 'User already exists' });
-            }
-
-            const salt = await bcryptjs.genSalt(10);
-            const hashedPassword = await bcryptjs.hash(password, salt);
-
-            const newUser = new User({
-                username,
-                email,
-                password: hashedPassword,
-            });
-
-            const savedUser = await newUser.save();
-            return res.status(201).json({ message: 'User created successfully', success: true, savedUser });
-        } catch (error: any) {
-            console.error(error); // Imprime el error en la consola para depuración
-            return res.status(500).json({ error: 'Internal server error' });
-        }
+      if (result.error) {
+        return res.status(400).json({ error: result.error });
+      }
+      return res.status(201).json({
+        message: "User created successfully",
+        success: true,
+        savedUser: result.savedUser,
+      });
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ error: "UserService: signUp Internal server error" + error });
     }
-    async login(req: Request, res: Response) {
-        try {
-            connect()
-            const reqBody = req.body; // No necesitas await aquí
-            const { email, password } = reqBody;
+  }
+  async login(req: Request, res: Response): Promise<Response> {
+    try {
+      const reqBody = req.body;
+      const { email, password } = reqBody;
 
-            // Verificar si el usuario existe
-            const user = await User.findOne({ email });
-            if (!user) {
-                return res.status(400).json({ error: 'User does not exist' });
-            }
+      if (!email || !password) {
+        return res
+          .status(400)
+          .json({ error: "Correo electrónico y contraseña son obligatorios" });
+      }
+      const data = { email, password };
+      const userAuthenticated = await this.databaseManager.loginUser(data);
 
-            // Verificar si la contraseña es correcta
-            const validPassword = await bcryptjs.compare(password, user.password);
-            if (!validPassword) {
-                return res.status(400).json({ error: 'Invalid password' });
-            }
+      if (!userAuthenticated.success) {
+        return res.status(401).json({ error: userAuthenticated.error });
+      }
 
-            // Crear datos del token
-            const tokenData = {
-                id: user._id,
-                username: user.username,
-                email: user.email,
-            };
-
-            // Crear token
-            const token = jwt.sign(tokenData, process.env.TOKEN_SECRET!, {
-                expiresIn: '1d',
-            });
-
-            // Configurar la cookie del token
-            res.cookie('token', token, {
-                httpOnly: true,
-            });
-
-            return res.status(200).json({ message: 'Login successful', success: true });
-        } catch (error: any) {
-            console.error(error); // Imprime el error en la consola para depuración
-            return res.status(500).json({ error: 'Internal server error' });
-        }
+      res.cookie("token", userAuthenticated.token, {
+        httpOnly: true,
+        secure: false,
+        sameSite: "lax",
+      });
+      return res
+        .status(200)
+        .json({ message: "Login successful", success: true });
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ error: "UserService: login Internal server error" + error });
     }
+  }
+  async logout(res: Response): Promise<Response> {
+    try {
+      res.clearCookie("token");
+      return res
+        .status(200)
+        .json({ message: "Logout successful", success: true });
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ error: "UserService: logout Internal server error" + error });
+    }
+  }
 }

@@ -8,5 +8,5 @@ const userService = new UserService()
 
 routerUser.post('/singup', userService.signUp)
 routerUser.post('/login', userService.login)
-
+routerUser.post('/logout', userService.logout)
 export { routerUser }
