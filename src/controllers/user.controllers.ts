@@ -1,13 +1,11 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
-import { DatabaseManager } from "../services/DatabaseManager";
-import { IDatabaseManager } from "../interfaces/databaseManager.interfaces";
 import { IUserService } from "../interfaces/userService.interfaces";
+import { initializeDatabaseManager,loginUser, signUpUser } from "../services/DatabaseManager";
 
 export class UserService implements IUserService {
-  databaseManager: IDatabaseManager;
   constructor() {
-    this.databaseManager = new DatabaseManager();
+    initializeDatabaseManager()
   }
   async signUp(req: Request, res: Response): Promise<Response> {
     try {
@@ -22,7 +20,7 @@ export class UserService implements IUserService {
         email,
         password,
       };
-      const result = await this.databaseManager.signUpUser(data);
+      const result = await signUpUser(data);
 
       if (result.error) {
         return res.status(400).json({ error: result.error });
@@ -49,8 +47,7 @@ export class UserService implements IUserService {
           .json({ error: "Correo electrónico y contraseña son obligatorios" });
       }
       const data = { email, password };
-      const userAuthenticated = await this.databaseManager.loginUser(data);
-
+      const userAuthenticated = await loginUser(data);
       if (!userAuthenticated.success) {
         return res.status(401).json({ error: userAuthenticated.error });
       }

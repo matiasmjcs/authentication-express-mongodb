@@ -6,7 +6,6 @@ import { IServer } from "../interfaces/server.interfaces";
 config();
 export default class Server implements IServer{
   private app: Application;
-
   constructor() {
     this.app = express();
     this.configureMiddleware();
@@ -26,7 +25,7 @@ export default class Server implements IServer{
   }
 
   configureRoutes(): void {
-    this.app.use("/users", routerUser);
+    this.app.use("/api/v1/user", routerUser);
   }
 
   errorHandler: ErrorRequestHandler = (err: any, req: Request, res: Response, next: express.NextFunction) => {
@@ -37,7 +36,7 @@ export default class Server implements IServer{
    start(): void {
     const port = process.env.PORT; 
     this.app.listen(port, () => {
-      console.log(`Server is running on port ${port}`);
+      console.log(`Server is running on http://localhost:${port}`);
     });
   }
 }
