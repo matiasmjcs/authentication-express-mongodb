@@ -3,7 +3,7 @@ import { validationResult } from "express-validator";
 import { IUserService } from "../interfaces/userService.interfaces";
 import { initializeDatabaseManager,loginUser, signUpUser } from "../services/DatabaseManager";
 
-export class UserService implements IUserService {
+export class UserControllers implements IUserService {
   constructor() {
     initializeDatabaseManager()
   }

@@ -1,12 +1,12 @@
 import { Router } from 'express'
-import { UserService } from '../controllers/user.controllers'
+import { UserControllers } from '../controllers/user.controllers'
  '../controllers/notes.controllers'
 
 const routerUser = Router()
 
-const userService = new UserService()
+const userControllers = new UserControllers()
 
-routerUser.post('/singup', userService.signUp)
-routerUser.post('/login', userService.login)
-routerUser.post('/logout', userService.logout)
+routerUser.post('/singup', userControllers.signUp)
+routerUser.post('/login', userControllers.login)
+routerUser.post('/logout', userControllers.logout)
 export { routerUser }
