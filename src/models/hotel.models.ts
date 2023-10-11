@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { IHotelMongodb } from "../interfaces/hotel.interface";
+import { IHotelMongodb } from "../interfaces/hotel/hotel.interface";
 
 const hotelSchema = new Schema<IHotelMongodb>({
     name: {type: String, require: true},

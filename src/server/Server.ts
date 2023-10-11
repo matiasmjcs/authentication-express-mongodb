@@ -2,8 +2,9 @@ import express, { Application, ErrorRequestHandler , Request, Response } from "e
 import { routerUser } from "../router/user.route";
 import { config } from 'dotenv'; 
 import cors from 'cors';
-import { IServer } from "../interfaces/server.interfaces";
+import { IServer } from "../interfaces/server/server.interface";
 import { routerHotel } from "../router/hotel.route";
+import { connect } from "../database/databaseConnector.database";
 config();
 export default class Server implements IServer{
   private app: Application;
@@ -11,6 +12,7 @@ export default class Server implements IServer{
     this.app = express();
     this.configureMiddleware();
     this.configureRoutes();
+    connect()
   }
 
   configureMiddleware(): void {

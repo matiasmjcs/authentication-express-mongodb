@@ -8,6 +8,6 @@ const hotelControllers = new HotelControllers()
 routerHotel.get("/",hotelControllers.findAll)
 routerHotel.get("/:id",hotelControllers.findById)
 routerHotel.post("/",hotelControllers.create)
-routerHotel.patch("/",hotelControllers.update)
+routerHotel.patch("/:id",hotelControllers.update)
 
 export { routerHotel }

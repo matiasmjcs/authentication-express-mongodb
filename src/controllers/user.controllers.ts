@@ -1,12 +1,9 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
-import { IUserService } from "../interfaces/userService.interfaces";
-import { initializeDatabaseManager,loginUser, signUpUser } from "../dataBaseManager/user";
+import { IUserControllers } from "../interfaces/user/userControllers.interface";
+import { loginUser, signUpUser } from "../dataBaseManager/user";
 
-export class UserControllers implements IUserService {
-  constructor() {
-    initializeDatabaseManager()
-  }
+export class UserControllers implements IUserControllers {
   async signUp(req: Request, res: Response): Promise<Response> {
     try {
       const errors = validationResult(req);

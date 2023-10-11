@@ -1,20 +1,10 @@
-import { IUserLogin, IUserSignUp } from "../interfaces/user.interfaces";
+import { IUserLogin, IUserSignUp } from "../interfaces/user/user.interface";
 import User from "../models/user.models";
 import bcryptjs from "bcryptjs";
 import { Document } from "mongoose";
 import jwt from "jsonwebtoken";
 import { config } from 'dotenv'; 
-import { connect } from "../database/databaseConnector.database";
 config();
-
-// Función para conectar a la base de datos
-async function initializeDatabaseManager() {
-  try {
-    await connect();
-  } catch (error) {
-    console.error("Error initializing DatabaseManager:", error);
-  }
-}
 
 async function signUpUser(data: IUserSignUp): Promise<{ success: boolean; savedUser?: Document; error?: string }> {
   const { username, email, password } = data
@@ -78,4 +68,4 @@ async function loginUser(data: IUserLogin): Promise<{ success: boolean; token?: 
   }
 } 
 
-export { initializeDatabaseManager, signUpUser, loginUser };
+export { signUpUser, loginUser };
