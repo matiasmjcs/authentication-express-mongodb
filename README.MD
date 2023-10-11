@@ -5,7 +5,7 @@ Thank you for visiting our backend repository for the Hotel Application. Our bac
 Thank you for your interest in our Hotel App Backend, and stay tuned for further updates!
 
 ```
-project-root/
+Hotel-app-express-mongodb/
  ├── src/
  │    ├── controllers/
  │    │    ├── hotel.controllers.ts
