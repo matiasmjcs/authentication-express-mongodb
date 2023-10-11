@@ -5,4 +5,9 @@ const routerHotel = Router()
 
 const hotelControllers = new HotelControllers()
 
+routerHotel.get("/",hotelControllers.findAll)
+routerHotel.get("/:id",hotelControllers.findById)
+routerHotel.post("/",hotelControllers.create)
+routerHotel.patch("/",hotelControllers.update)
+
 export { routerHotel }

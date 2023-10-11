@@ -3,6 +3,7 @@ import { routerUser } from "../router/user.route";
 import { config } from 'dotenv'; 
 import cors from 'cors';
 import { IServer } from "../interfaces/server.interfaces";
+import { routerHotel } from "../router/hotel.route";
 config();
 export default class Server implements IServer{
   private app: Application;
@@ -26,6 +27,7 @@ export default class Server implements IServer{
 
   configureRoutes(): void {
     this.app.use("/api/v1/user", routerUser);
+    this.app.use("/api/v1/hotel", routerHotel);
   }
 
   errorHandler: ErrorRequestHandler = (err: any, req: Request, res: Response, next: express.NextFunction) => {

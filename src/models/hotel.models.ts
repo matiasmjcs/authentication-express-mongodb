@@ -1,7 +1,7 @@
 import mongoose, { Schema } from "mongoose";
-import { IHotel } from "../interfaces/hotel.interface";
+import { IHotelMongodb } from "../interfaces/hotel.interface";
 
-const hotelSchema = new Schema<IHotel>({
+const hotelSchema = new Schema<IHotelMongodb>({
     name: {type: String, require: true},
     description: {type: String, require: true},
     location: {type:String, require: true},
@@ -10,3 +10,5 @@ const hotelSchema = new Schema<IHotel>({
 })
 
 const Hotel = mongoose.model("hotels",hotelSchema)
+
+export default Hotel

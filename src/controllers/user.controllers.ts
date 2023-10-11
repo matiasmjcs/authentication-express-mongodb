@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 import { IUserService } from "../interfaces/userService.interfaces";
-import { initializeDatabaseManager,loginUser, signUpUser } from "../services/DatabaseManager";
+import { initializeDatabaseManager,loginUser, signUpUser } from "../dataBaseManager/user";
 
 export class UserControllers implements IUserService {
   constructor() {

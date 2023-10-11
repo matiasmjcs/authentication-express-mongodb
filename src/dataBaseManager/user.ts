@@ -76,6 +76,6 @@ async function loginUser(data: IUserLogin): Promise<{ success: boolean; token?: 
       error: "DatabaseManager: Error interno al iniciar sesión " + error,
     };
   }
-}
+} 
 
 export { initializeDatabaseManager, signUpUser, loginUser };
