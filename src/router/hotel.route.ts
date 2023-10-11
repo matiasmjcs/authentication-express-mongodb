@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { HotelControllers } from '../controllers/hotel.controlles'
+import { HotelControllers } from '../controllers/hotel.controllers'
 
 const routerHotel = Router()
 

@@ -5,6 +5,7 @@ import cors from 'cors';
 import { IServer } from "../interfaces/server/server.interface";
 import { routerHotel } from "../router/hotel.route";
 import { connect } from "../database/databaseConnector.database";
+import { routerRoom } from "../router/room.route";
 config();
 export default class Server implements IServer{
   private app: Application;
@@ -30,6 +31,7 @@ export default class Server implements IServer{
   configureRoutes(): void {
     this.app.use("/api/v1/user", routerUser);
     this.app.use("/api/v1/hotel", routerHotel);
+    this.app.use("/api/v1/room", routerRoom);
   }
 
   errorHandler: ErrorRequestHandler = (err: any, req: Request, res: Response, next: express.NextFunction) => {
