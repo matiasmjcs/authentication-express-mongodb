@@ -9,10 +9,14 @@ import { routerRoom } from "../router/room.route";
 config();
 export default class Server implements IServer{
   private app: Application;
+  private domain: string
+  private domain2: string
   constructor() {
     this.app = express();
     this.configureMiddleware();
     this.configureRoutes();
+    this.domain = process.env.DOMAIN!
+    this.domain2 = process.env.DOMAIN2!
     connect()
   }
 
@@ -20,7 +24,7 @@ export default class Server implements IServer{
     this.app.use(express.json());
 
     this.app.use(cors({
-      origin:  [process.env.DOMAIN!, process.env.DOMAIN2! ],
+      origin:  [this.domain, this.domain2 ],
       methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
       credentials: true 
     }));
