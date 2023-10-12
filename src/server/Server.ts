@@ -20,7 +20,7 @@ export default class Server implements IServer{
     this.app.use(express.json());
 
     this.app.use(cors({
-      origin: process.env.DOMAIN,
+      origin:  [process.env.DOMAIN!, process.env.DOMAIN2! ],
       methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
       credentials: true 
     }));
