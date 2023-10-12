@@ -12,11 +12,11 @@ export default class Server implements IServer{
   private domain: string
   private domain2: string
   constructor() {
+    this.domain = process.env.DOMAIN!
+    this.domain2 = process.env.DOMAIN2!
     this.app = express();
     this.configureMiddleware();
     this.configureRoutes();
-    this.domain = process.env.DOMAIN!
-    this.domain2 = process.env.DOMAIN2!
     connect()
   }
 
