@@ -12,19 +12,20 @@ export default class Server implements IServer{
   private domain: string
   private domain2: string
   constructor() {
-    this.domain = process.env.DOMAIN!
-    this.domain2 = process.env.DOMAIN2!
+    this.domain = process.env.DOMAIN as string
+    this.domain2 = process.env.DOMAIN2 as string
     this.app = express();
     this.configureMiddleware();
     this.configureRoutes();
-    connect()
+    connect() 
+    console.log(this.domain, this.domain2)
   }
 
   configureMiddleware(): void {
     this.app.use(express.json());
 
     this.app.use(cors({
-      origin:  [this.domain, this.domain2 ],
+      origin:  [this.domain, this.domain2],
       methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
       credentials: true 
     }));
