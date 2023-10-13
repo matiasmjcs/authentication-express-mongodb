@@ -1,4 +1,4 @@
-import { Router } from 'express'
+import { Application, Router } from 'express'
 import { RoomControllers } from '../controllers/room.controllers'
 
 const routerRoom = Router()
@@ -10,4 +10,4 @@ routerRoom.get("/:id",roomControllers.findById)
 routerRoom.post("/",roomControllers.create)
 routerRoom.patch("/:id",roomControllers.update)
 
-export { routerRoom }
+export const romRouter = (app: Application) => app.use("/api/v1/room", routerRoom);

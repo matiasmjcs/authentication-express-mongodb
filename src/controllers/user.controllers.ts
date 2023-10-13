@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 import { IUserControllers } from "../interfaces/user/userControllers.interface";
-import { loginUser, signUpUser } from "../dataBaseManager/user";
+import { deleteUser, loginUser, signUpUser } from "../dataBaseManager/user";
 
 export class UserControllers implements IUserControllers {
   async signUp(req: Request, res: Response): Promise<Response> {
@@ -35,8 +35,7 @@ export class UserControllers implements IUserControllers {
   }
   async login(req: Request, res: Response): Promise<Response> {
     try {
-      const reqBody = req.body;
-      const { email, password } = reqBody;
+      const { email, password } = req.body;
 
       if (!email || !password) {
         return res
@@ -63,11 +62,11 @@ export class UserControllers implements IUserControllers {
         .json({ error: "UserService: login Internal server error" + error });
     }
   }
-  async logout(res: Response): Promise<Response> {
+  async logout(req: Request,res: Response): Promise<Response> {
     try {
       res.clearCookie("token");
       return res
-        .status(200)
+        .status(204)
         .json({ message: "Logout successful", success: true });
     } catch (error) {
       return res
@@ -75,4 +74,27 @@ export class UserControllers implements IUserControllers {
         .json({ error: "UserService: logout Internal server error" + error });
     }
   }
+
+  async delete(req: Request, res: Response): Promise<Response> {
+    try {
+      const userEmail = req.params.email;
+      
+      const result = await deleteUser(userEmail);
+  
+      if (result.error) {
+        return res.status(400).json({ error: result.error });
+      }
+  
+      return res.status(200).json({
+        message: "User deleted successfully",
+        success: true,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        error: "UserService: delete Internal server error" + error,
+      });
+    }
+  }
 }
+
+

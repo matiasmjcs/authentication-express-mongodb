@@ -68,4 +68,23 @@ async function loginUser(data: IUserLogin): Promise<{ success: boolean; token?: 
   }
 } 
 
-export { signUpUser, loginUser };
+async function deleteUser(email: string): Promise<{ success: boolean; error?: string }> {
+  try {
+    const user = await User.findOne({ email });
+    const deletedUser = await User.findByIdAndDelete(user?._id);
+
+    if (!deletedUser) {
+      return { success: false, error: "Usuario no encontrado" };
+    }
+
+    return { success: true };
+  } catch (error) {
+    return {
+      success: false,
+      error: "Error interno al eliminar el usuario: " + error,
+    };
+  }
+}
+
+
+export { signUpUser, loginUser, deleteUser };

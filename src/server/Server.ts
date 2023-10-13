@@ -1,11 +1,11 @@
 import express, { Application, ErrorRequestHandler , Request, Response } from "express";
-import { routerUser } from "../router/user.route";
+import { userRouter } from "../router/user.route";
 import { config } from 'dotenv'; 
 import cors from 'cors';
 import { IServer } from "../interfaces/server/server.interface";
-import { routerHotel } from "../router/hotel.route";
+import { hotelRouter } from "../router/hotel.route";
 import { connect } from "../database/databaseConnector.database";
-import { routerRoom } from "../router/room.route";
+import { romRouter } from "../router/room.route";
 config();
 export default class Server implements IServer{
   private app: Application;
@@ -34,9 +34,9 @@ export default class Server implements IServer{
   }
 
   configureRoutes(): void {
-    this.app.use("/api/v1/user", routerUser);
-    this.app.use("/api/v1/hotel", routerHotel);
-    this.app.use("/api/v1/room", routerRoom);
+    userRouter(this.app);
+    romRouter(this.app);
+    hotelRouter(this.app);
   }
 
   errorHandler: ErrorRequestHandler = (err: any, req: Request, res: Response, next: express.NextFunction) => {

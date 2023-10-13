@@ -9,10 +9,8 @@ async function connect() {
   try {
     if (!mongooseInstance) {
       mongooseInstance = await mongoose.connect(process.env.MONGO_URI!);
-      console.log("MongoDB connected successfully");
     }
   } catch (error) {
-    console.error("An error occurred while connecting to MongoDB");
     console.error(error);
   }
 }
@@ -20,11 +18,10 @@ async function connect() {
 async function disconnect() {
   try {
     if (mongooseInstance) {
-      await mongooseInstance.connection.close();
-      console.log("MongoDB disconnected");
+      await mongooseInstance.disconnect();
+      mongooseInstance = null;
     }
   } catch (error) {
-    console.error("An error occurred while disconnecting from MongoDB");
     console.error(error);
   }
 }
