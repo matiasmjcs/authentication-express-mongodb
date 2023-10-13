@@ -1,4 +1,4 @@
-import { testServer } from "../src/utils/superTest";
+import { testServer } from "../src/utils/superTest.utils";
 import { userRouter } from "../src/router/user.route";
 import { connect, disconnect } from "../src/database/databaseConnector.database";
 const request = testServer(userRouter);

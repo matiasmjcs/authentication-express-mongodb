@@ -6,6 +6,8 @@ Thank you for your interest in our Hotel App Backend, and stay tuned for further
 
 ```
 Hotel-app-express-mongodb/
+ ├── __test__/
+ │    ├── user.spec.ts
  ├── src/
  │    ├── controllers/
  │    │    ├── hotel.controllers.ts
@@ -44,10 +46,12 @@ Hotel-app-express-mongodb/
  │    ├── utils/
  │    │    ├── jwt.utils.ts
  │    │    ├── password.utils.ts
+ │    │    ├── superTest.utils.ts
  │    └── index.ts
  ├── .env.example
  ├── .gitignore
  ├── Dockerfile
+ ├── jest.config.js
  ├── package-lock.json
  ├── package.json
  ├── README.md
