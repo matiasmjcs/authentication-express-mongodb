@@ -4,6 +4,13 @@ import { IUserControllers } from "../interfaces/user/userControllers.interface";
 import { deleteUser, loginUser, signUpUser } from "../dataBaseManager/user";
 
 export class UserControllers implements IUserControllers {
+  /**
+   * Handles the sign up request and creates a new user.
+   *
+   * @param {Request} req - The HTTP request object.
+   * @param {Response} res - The HTTP response object.
+   * @return {Promise<Response>} The HTTP response containing the result of the sign up operation.
+   */
   async signUp(req: Request, res: Response): Promise<Response> {
     try {
       const errors = validationResult(req);
@@ -33,6 +40,13 @@ export class UserControllers implements IUserControllers {
         .json({ error: "UserService: signUp Internal server error" + error });
     }
   }
+  /**
+   * Logs in a user.
+   *
+   * @param {Request} req - the request object
+   * @param {Response} res - the response object
+   * @return {Promise<Response>} the response with the result of the login attempt
+   */
   async login(req: Request, res: Response): Promise<Response> {
     try {
       const { email, password } = req.body;
@@ -62,6 +76,13 @@ export class UserControllers implements IUserControllers {
         .json({ error: "UserService: login Internal server error" + error });
     }
   }
+/**
+ * Logs out the user by clearing the token cookie.
+ *
+ * @param {Request} req - the request object
+ * @param {Response} res - the response object
+ * @return {Promise<Response>} - a promise that resolves to the response object
+ */
   async logout(req: Request,res: Response): Promise<Response> {
     try {
       res.clearCookie("token");
@@ -75,6 +96,13 @@ export class UserControllers implements IUserControllers {
     }
   }
 
+  /**
+   * Deletes a user.
+   *
+   * @param {Request} req - The request object.
+   * @param {Response} res - The response object.
+   * @returns {Promise<Response>} - The response object.
+   */
   async delete(req: Request, res: Response): Promise<Response> {
     try {
       const userEmail = req.params.email;

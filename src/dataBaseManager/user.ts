@@ -6,6 +6,15 @@ import jwt from "jsonwebtoken";
 import { config } from 'dotenv'; 
 config();
 
+/**
+ * Signs up a user and returns a promise that resolves to an object with the following properties:
+ *
+ * @param {IUserSignUp} data - An object containing the necessary data for user sign up, including username, email, and password.
+ * @return {Promise<{ success: boolean; savedUser?: Document; error?: string }>} - A promise that resolves to an object with the following properties:
+ *   - success: A boolean indicating whether the sign up was successful or not.
+ *   - savedUser: (optional) A Document representing the saved user in the database.
+ *   - error: (optional) A string describing the error that occurred during sign up.
+ */
 async function signUpUser(data: IUserSignUp): Promise<{ success: boolean; savedUser?: Document; error?: string }> {
   const { username, email, password } = data
   try {
@@ -34,6 +43,17 @@ async function signUpUser(data: IUserSignUp): Promise<{ success: boolean; savedU
   }
 }
 
+/**
+ * Log in a user with the provided credentials and return a success
+ * flag, an optional token, and an optional error message.
+ *
+ * @param {IUserLogin} data - The user login data containing the email
+ * and password.
+ * @return {Promise<{ success: boolean; token?: string; error?: string }>}
+ * An object with a success flag indicating if the login was successful,
+ * an optional token if the login was successful, and an optional error
+ * message if the login was unsuccessful.
+ */
 async function loginUser(data: IUserLogin): Promise<{ success: boolean; token?: string; error?: string }> {
   const { email, password } = data;
   try {
@@ -68,6 +88,12 @@ async function loginUser(data: IUserLogin): Promise<{ success: boolean; token?: 
   }
 } 
 
+/**
+ * Deletes a user based on their email.
+ *
+ * @param {string} email - The email of the user to be deleted.
+ * @return {Promise<{ success: boolean; error?: string }>} - A promise that resolves to an object with a success boolean indicating whether the user was deleted successfully, and an optional error string if there was an error.
+ */
 async function deleteUser(email: string): Promise<{ success: boolean; error?: string }> {
   try {
     const user = await User.findOne({ email });
