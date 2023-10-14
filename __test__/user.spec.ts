@@ -3,6 +3,12 @@ import { userRouter } from "../src/router/user.route";
 import { connect, disconnect } from "../src/database/databaseConnector.database";
 const request = testServer(userRouter);
 
+const usuario = {
+  username: "usuariofake",
+  email: "usuariofake@example.com",
+  password: "strongPassword123"
+}
+
 describe("[ routes / api/v1/user ]", () => {
   beforeAll(async () => {
     connect()
@@ -18,9 +24,9 @@ describe("[ routes / api/v1/user ]", () => {
     const { status: result } = await request
       .post("/api/v1/user/signup")
       .send({
-        username: "usuariofake",
-        email: "usuariofake@example.com",
-        password: "strongPassword123"
+        username: usuario.username,
+        email: usuario.email,
+        password: usuario.password
       });
 
 
@@ -37,8 +43,8 @@ describe("[ routes / api/v1/user ]", () => {
     const { status: result } = await request
       .post("/api/v1/user/login")
       .send({
-        email: "usuariofake@example.com",
-        password: "strongPassword123"
+        email: usuario.email,
+        password: usuario.password
       })
 
       const { status: resultErrorEmpty } = await request
@@ -72,11 +78,10 @@ describe("[ routes / api/v1/user ]", () => {
   it("should return a 200 OK status code when deleting a user", async () => {
     // Arrange
     const expectedStatus = 200;
-    const userToDelete = "usuariofake@example.com";
   
     // Act
     const { status: result } = await request
-      .delete(`/api/v1/user/delete/${userToDelete}`);
+      .delete(`/api/v1/user/delete/${usuario.email}`);
   
     // Assert
     expect(result).toEqual(expectedStatus);
