@@ -10,4 +10,4 @@ routerRoom.get("/:id",roomControllers.findById)
 routerRoom.post("/",roomControllers.create)
 routerRoom.patch("/:id",roomControllers.update)
 
-export const romRouter = (app: Application) => app.use("/api/v1/room", routerRoom);
+export const roomRouter = (app: Application) => app.use("/api/v1/room", routerRoom);

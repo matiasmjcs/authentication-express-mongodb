@@ -14,4 +14,7 @@ export interface IRoom {
 }
 
 export interface IRoomMondodb extends Document ,IRoom {}
-  
+
+export interface IRoomFetch extends IRoom{
+  _id: string
+}
