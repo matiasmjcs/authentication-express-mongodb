@@ -9,5 +9,5 @@ const userControllers = new UserControllers()
 routerUser.post('/signup', userControllers.signUp)
 routerUser.post('/login', userControllers.login)
 routerUser.post('/logout', userControllers.logout)
-routerUser.delete('/delete/:email', userControllers.delete)
+routerUser.delete('/delete/:id', userControllers.delete)
 export const userRouter = (app: Application) => app.use("/api/v1/user", routerUser);

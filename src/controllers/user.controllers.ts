@@ -32,7 +32,7 @@ export class UserControllers implements IUserControllers {
       return res.status(201).json({
         message: "User created successfully",
         success: true,
-        savedUser: result.savedUser,
+        user: result.savedUser,
       });
     } catch (error) {
       return res
@@ -105,9 +105,9 @@ export class UserControllers implements IUserControllers {
    */
   async delete(req: Request, res: Response): Promise<Response> {
     try {
-      const userEmail = req.params.email;
+      const userId = req.params.id;
       
-      const result = await deleteUser(userEmail);
+      const result = await deleteUser(userId);
   
       if (result.error) {
         return res.status(400).json({ error: result.error });

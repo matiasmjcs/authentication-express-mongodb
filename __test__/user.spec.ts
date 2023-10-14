@@ -4,10 +4,12 @@ import { connect, disconnect } from "../src/database/databaseConnector.database"
 const request = testServer(userRouter);
 
 const usuario = {
-  username: "usuariofake",
-  email: "usuariofake@example.com",
+  username: "usuariofalse",
+  email: "usuariofalse@example.com",
   password: "strongPassword123"
 }
+
+let userId: string;
 
 describe("[ routes / api/v1/user ]", () => {
   beforeAll(async () => {
@@ -21,14 +23,14 @@ describe("[ routes / api/v1/user ]", () => {
     const expectedStatus = 201;
 
     // Act
-    const { status: result } = await request
+    const { status: result, body } = await request
       .post("/api/v1/user/signup")
       .send({
         username: usuario.username,
         email: usuario.email,
         password: usuario.password
       });
-
+      userId = body.user._id
 
     // Assert
     expect(result).toEqual(expectedStatus);
@@ -53,7 +55,7 @@ describe("[ routes / api/v1/user ]", () => {
       const { status: resultErrorAuthentication } = await request
       .post("/api/v1/user/login")
       .send({
-        email: "usuariofake@example.com",
+        email: usuario.email,
         password: "strongPassword123333"
       })
 
@@ -81,7 +83,7 @@ describe("[ routes / api/v1/user ]", () => {
   
     // Act
     const { status: result } = await request
-      .delete(`/api/v1/user/delete/${usuario.email}`);
+      .delete(`/api/v1/user/delete/${userId}`);
   
     // Assert
     expect(result).toEqual(expectedStatus);

@@ -13,7 +13,7 @@ export class HotelControllers implements IHotelControllers {
   async findAll(_req: Request, res: Response): Promise<Response> {
     try {
       const response = await FindHotelAll()
-      return res.json({
+      return res.status(200).json({
         response
       })
     } catch (error) {
@@ -33,7 +33,7 @@ export class HotelControllers implements IHotelControllers {
     try {
       const { id } = req.params
       const response = await FindHotelById(id)
-      return res.json({
+      return res.status(200).json({
         response
       })
     } catch (error) {
@@ -53,7 +53,7 @@ export class HotelControllers implements IHotelControllers {
     try {
       const reqBody = req.body
       const response = await createHotel(reqBody)
-      return res.json({ response })
+      return res.status(201).json({ response })
     } catch (error) {
       return res.status(500).json({
         error: "Internal server error: " + error,
@@ -72,7 +72,7 @@ export class HotelControllers implements IHotelControllers {
       const { id } = req.params
       const body = req.body
       const response = await updateHotel(id, body)
-      return res.json({ response })
+      return res.status(200).json({ response })
     } catch (error) {
       return res.status(500).json({
         error: "Internal server error: " + error,
@@ -91,7 +91,7 @@ export class HotelControllers implements IHotelControllers {
     try {
       const { id } = req.params;
       const response = await deleteHotel(id);
-      return res.json(response);
+      return res.status(200).json(response);
     } catch (error) {
       return res.status(500).json({
         success: false,

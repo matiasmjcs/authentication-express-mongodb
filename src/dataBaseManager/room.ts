@@ -1,5 +1,6 @@
 import { errorCatch } from "../interfaces/errorCatch/errorCatch.interface";
 import { IRoom } from "../interfaces/room/room.interface";
+import Hotel from "../models/hotel.models";
 import Room from "../models/room.models";
 
 /**
@@ -50,6 +51,8 @@ export const FindRoomById = async (id: string): Promise<IRoom | errorCatch> => {
 export const createRoom = async (room: IRoom): Promise<{ success: boolean; room: IRoom; } | errorCatch> => {
     try {
         const roomCheck = await Room.findOne({ roomNumber: room.roomNumber })
+        const hotelCheck = await Hotel.findById(room.hotel)
+        if (!hotelCheck) { throw new Error("no se a encontrado el hotel") }
         if (roomCheck) { throw new Error("esta habitacion ya existe") }
         const newRoom = new Room({
             roomNumber: room.roomNumber,
@@ -96,7 +99,7 @@ export const updateRoom = async (id: string, updatedData: IRoom): Promise<{ succ
         if (updatedData.availableDates) room.availableDates = updatedData.availableDates;
         if (updatedData.amenities) room.amenities = updatedData.amenities;
         if (updatedData.capacity) room.capacity = updatedData.capacity;
-        if (updatedData.isClean) room.isClean = updatedData.isClean;
+        updatedData.isClean ? room.isClean = updatedData.isClean : room.isClean = false;
         if (updatedData.hotel) room.hotel = updatedData.hotel;
 
 

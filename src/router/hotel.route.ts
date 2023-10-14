@@ -9,5 +9,6 @@ routerHotel.get("/",hotelControllers.findAll)
 routerHotel.get("/:id",hotelControllers.findById)
 routerHotel.post("/",hotelControllers.create)
 routerHotel.patch("/:id",hotelControllers.update)
+routerHotel.delete("/:id",hotelControllers.delete)
 
 export const hotelRouter = (app: Application) => app.use("/api/v1/hotel", routerHotel)

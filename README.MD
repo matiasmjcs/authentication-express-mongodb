@@ -7,6 +7,8 @@ Thank you for your interest in our Hotel App Backend, and stay tuned for further
 ```
 Hotel-app-express-mongodb/
  ├── __test__/
+ │    ├── hotel.spec.ts
+ │    ├── room.spec.ts
  │    ├── user.spec.ts
  ├── src/
  │    ├── controllers/
@@ -20,6 +22,8 @@ Hotel-app-express-mongodb/
  │    │    ├── room.ts
  │    │    ├── user.ts
  │    ├── interfaces/
+ │    │    ├── errorCatch/
+ │    │    │    ├── errorCatch.interface.ts
  │    │    ├── hotel/
  │    │    │    ├── hotel.interface.ts
  │    │    │    └── hotelControllers.interface.ts

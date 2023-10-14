@@ -9,5 +9,6 @@ routerRoom.get("/",roomControllers.findAll)
 routerRoom.get("/:id",roomControllers.findById)
 routerRoom.post("/",roomControllers.create)
 routerRoom.patch("/:id",roomControllers.update)
+routerRoom.delete("/:id",roomControllers.delete)
 
 export const roomRouter = (app: Application) => app.use("/api/v1/room", routerRoom);

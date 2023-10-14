@@ -88,16 +88,20 @@ async function loginUser(data: IUserLogin): Promise<{ success: boolean; token?: 
   }
 } 
 
+
 /**
- * Deletes a user based on their email.
+ * Deletes a user by their ID.
  *
- * @param {string} email - The email of the user to be deleted.
- * @return {Promise<{ success: boolean; error?: string }>} - A promise that resolves to an object with a success boolean indicating whether the user was deleted successfully, and an optional error string if there was an error.
+ * @param {string} id - The ID of the user to be deleted.
+ * @return {Promise<{ success: boolean; error?: string }>} - A promise that resolves to an object with a success property indicating whether the user was deleted successfully, and an optional error property with the error message if any.
  */
-async function deleteUser(email: string): Promise<{ success: boolean; error?: string }> {
+async function deleteUser(id: string): Promise<{ success: boolean; error?: string }> {
   try {
-    const user = await User.findOne({ email });
-    const deletedUser = await User.findByIdAndDelete(user?._id);
+    const user = await User.findById(id);
+    if(!user) {
+      return { success: false, error: "Usuario no encontrado" };
+    }
+    const deletedUser = await User.findByIdAndDelete(user._id);
 
     if (!deletedUser) {
       return { success: false, error: "Usuario no encontrado" };

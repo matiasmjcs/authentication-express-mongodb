@@ -13,7 +13,7 @@ export interface IRoom {
   hotel: mongoose.Schema.Types.ObjectId; 
 }
 
-export interface IRoomMondodb extends Document ,IRoom {}
+export interface IRoomMondodb extends Document ,IRoom{}
 
 export interface IRoomFetch extends IRoom{
   _id: string
