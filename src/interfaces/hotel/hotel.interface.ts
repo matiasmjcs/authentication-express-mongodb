@@ -1,4 +1,5 @@
-import mongoose from "mongoose"
+import mongoose, { Document } from "mongoose";
+
 
 export interface IHotelMongodb {
     name: string
@@ -10,6 +11,6 @@ export interface IHotelMongodb {
 
 export interface IHotel extends Omit<IHotelMongodb,"rooms"> {}
 
-export interface IHotelMongodbFetch extends IHotelMongodb {
+export interface IHotelMongodbFetch extends Document, IHotelMongodb {
     _id: string
 }

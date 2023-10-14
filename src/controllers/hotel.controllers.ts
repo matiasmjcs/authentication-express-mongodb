@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import { createHotel, FindHotelAll, FindHotelById, updateHotel } from "../dataBaseManager/hotel";
+import { createHotel, deleteHotel, FindHotelAll, FindHotelById, updateHotel } from "../dataBaseManager/hotel";
 import { IHotelControllers } from "../interfaces/hotel/hotelControllers.interface";
 
 export class HotelControllers implements IHotelControllers {
-  async findAll(_req: Request, res: Response) {
+  async findAll(_req: Request, res: Response) { 
     const response = await FindHotelAll()
     return res.json({
       response
@@ -27,4 +27,18 @@ export class HotelControllers implements IHotelControllers {
     const response = await updateHotel(id, body)
     return res.json({ response })
   }
+
+  async delete(req: Request, res: Response) {
+    const { id } = req.params;
+    try {
+      const response = await deleteHotel(id);
+      res.json(response);
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        error: "Internal server error: " + error,
+      });
+    }
+  }
+
 }
