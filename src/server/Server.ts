@@ -5,7 +5,7 @@ import cors from 'cors';
 import { IServer } from "../interfaces/server/server.interface";
 import { hotelRouter } from "../router/hotel.route";
 import { connect } from "../database/databaseConnector.database";
-import { romRouter } from "../router/room.route";
+import { roomRouter } from "../router/room.route";
 config();
 export default class Server implements IServer{
   private app: Application;
@@ -35,7 +35,7 @@ export default class Server implements IServer{
 
   configureRoutes(): void {
     userRouter(this.app);
-    romRouter(this.app);
+    roomRouter(this.app);
     hotelRouter(this.app);
   }
 
