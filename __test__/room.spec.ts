@@ -54,9 +54,9 @@ describe("[ routes / api/v1/room ]", () => {
             amenities: fictitiousRoom.amenities,
             capacity: fictitiousRoom.capacity,
             isClean: fictitiousRoom.isClean,
-            hotel: bodyHotel.response.hotels[0]._id
+            hotel: bodyHotel.hotels[0]._id
         })
-        fictitiousRoomId = body.response.room._id
+        fictitiousRoomId = body.response._id
         expect(result).toEqual(expectedStatus)
     })
     it("should return a 200 OK status code when a room is found by its ID", async () => {

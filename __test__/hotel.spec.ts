@@ -1,7 +1,9 @@
 import { testServer } from "../src/utils/superTest.utils";
 import { connect, disconnect } from "../src/database/databaseConnector.database";
 import { hotelRouter } from "../src/router/hotel.route";
+import { categoryRouter } from "../src/router/category.route";
 const request = testServer(hotelRouter);
+const requestcategory = testServer(categoryRouter);
 
 const luxuryHotel = {
     name: "The Royal Oasis",
@@ -27,14 +29,17 @@ describe("[ routes / api/v1/hotel ]", () => {
     it("should return a 201 Created status code when a new hotel successfully creates", async () => {
         // Arrange
         const expectedStatus = 201;
+        const {body: bodyCategory} = await requestcategory.get("/api/v1/category")
+        const categories = bodyCategory.categories
         const response = await request.post("/api/v1/hotel").send({
             name: luxuryHotel.name,
             description: luxuryHotel.description,
             location: luxuryHotel.location,
-            contact: luxuryHotel.contact})
-
+            contact: luxuryHotel.contact,
+            category: categories[0]._id
+        })
         const {body, status} = response
-        luxuryHotelId = body.response.hotel._id
+        luxuryHotelId = body.response._id
         expect(status).toEqual(expectedStatus)
     })
     it("should return a 200 OK status code when a hotel is found by its ID", async () => {
