@@ -12,21 +12,27 @@ Hotel-app-express-mongodb/
  │    ├── user.spec.ts
  ├── src/
  │    ├── controllers/
+ │    │    ├── category.controllers.ts
  │    │    ├── hotel.controllers.ts
  │    │    ├── user.controllers.ts
  │    │    └── room.controllers.ts
  │    ├── database/
  │    │    ├── dataBaseConnector.database.ts
  │    ├── databaseManager/
+ │    │    ├── category.ts
  │    │    ├── hotel.ts
  │    │    ├── room.ts
  │    │    ├── user.ts
  │    ├── interfaces/
- │    │    ├── errorCatch/
- │    │    │    ├── errorCatch.interface.ts
+ │    │    ├── category/
+ │    │    │    ├── category.interface.ts
+ │    │    │    ├── categoryControllers.interface.ts
  │    │    ├── hotel/
  │    │    │    ├── hotel.interface.ts
  │    │    │    └── hotelControllers.interface.ts
+ │    │    ├── reservation/
+ │    │    │    ├── reservation.interface.ts
+ │    │    │    └── reservationControllers.interface.ts
  │    │    ├── room/
  │    │    │    ├── room.interface.ts
  │    │    │    └── roomControllers.interface.ts
@@ -36,7 +42,9 @@ Hotel-app-express-mongodb/
  │    │    │    ├── user.interface.ts
  │    │    │    └── userControllers.interface.ts
  │    ├── models/
+ │    │    ├── category.models.ts
  │    │    ├── hotel.models.ts
+ │    │    ├── reservation.models.ts
  │    │    ├── room.models.ts
  │    │    ├── user.models.ts
  │    ├── router/
