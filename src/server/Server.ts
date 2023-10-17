@@ -7,6 +7,7 @@ import { hotelRouter } from "../router/hotel.route";
 import { connect } from "../database/databaseConnector.database";
 import { roomRouter } from "../router/room.route";
 import { categoryRouter } from "../router/category.route";
+import { reservationRouter } from "../router/reservation.route";
 config();
 export default class Server implements IServer{
   private app: Application;
@@ -19,7 +20,6 @@ export default class Server implements IServer{
     this.configureMiddleware();
     this.configureRoutes();
     connect() 
-    console.log(this.domain, this.domain2)
   }
 
   configureMiddleware(): void {
@@ -39,6 +39,7 @@ export default class Server implements IServer{
     roomRouter(this.app);
     hotelRouter(this.app);
     categoryRouter(this.app);
+    reservationRouter(this.app);
   }
 
   errorHandler: ErrorRequestHandler = (err: any, req: Request, res: Response, next: express.NextFunction) => {

@@ -2,11 +2,11 @@ import { IHotel, IHotelFetch } from "../interfaces/hotel/hotel.interface"
 import Hotel from "../models/hotel.models"
 
 
-export const FindHotelAll = async (): Promise<{ hotels: Array<IHotelFetch> } | { error: string }> => {
+export const FindHotelAll = async (): Promise<Array<IHotelFetch> | { error: string }> => {
     try {
         const hotels: Array<IHotelFetch> = await Hotel.find()
         if (!hotels) { throw new Error("no se a encontrado la lista de hoteles") }
-        return { hotels };
+        return hotels;
     } catch (error) {
         return {
             error: "DatabaseManager: FindHotelAll Internal server error" + error,
@@ -14,13 +14,11 @@ export const FindHotelAll = async (): Promise<{ hotels: Array<IHotelFetch> } | {
     }
 }
 
-
-
-export const FindHotelById = async (id: string): Promise<{ hotel: IHotel } | { error: string }> => {
+export const FindHotelById = async (id: string): Promise< IHotel | { error: string }> => {
     try {
         const hotel: IHotelFetch | null = await Hotel.findOne({ _id: id })
         if (!hotel) { throw new Error("no se a encontrado el hotel") }
-        return { hotel };
+        return hotel;
     } catch (error) {
         return {
             error: "DatabaseManager: FindHotelById Internal server error" + error,
@@ -29,7 +27,7 @@ export const FindHotelById = async (id: string): Promise<{ hotel: IHotel } | { e
 }
 
 
-export const createHotel = async (hotel: IHotel): Promise<{hotel: IHotelFetch } | { error: string }> => {
+export const createHotel = async (hotel: IHotel): Promise<IHotelFetch | { error: string }> => {
     try {
         const hotelVerify = await Hotel.findOne({ name: hotel.name })
         if (hotelVerify) { throw new Error("este hotel ya existe") }
@@ -43,7 +41,7 @@ export const createHotel = async (hotel: IHotel): Promise<{hotel: IHotelFetch } 
         })
         const saveHotel = await newHotel.save()
         if (!saveHotel) { throw new Error("a ocurrido un error al generar el hotel") }
-        return {hotel: saveHotel };
+        return saveHotel;
     } catch (error) {
         return {
             error: "DatabaseManager: createHotel Internal server error" + error,
@@ -52,7 +50,7 @@ export const createHotel = async (hotel: IHotel): Promise<{hotel: IHotelFetch } 
 }
 
 
-export const updateHotel = async (id: string, updatedData: IHotel): Promise<{ hotel?: IHotel; error?: string }> => {
+export const updateHotel = async (id: string, updatedData: IHotel): Promise<IHotel | { error?: string}> => {
     try {
         const hotel = await Hotel.findOne({ _id: id });
         if (!hotel) {
@@ -71,7 +69,7 @@ export const updateHotel = async (id: string, updatedData: IHotel): Promise<{ ho
             throw new Error("Ocurrió un error al actualizar el hotel");
         }
 
-        return { hotel: updatedHotel };
+        return updatedHotel;
     } catch (error) {
         return {
             error: "DatabaseManager: updateHotel Internal server error" + error,

@@ -6,15 +6,7 @@ import { JwtUtils } from "../utils/jwt.utils";
 import { PasswordUtils } from "../utils/password.utils";
 config();
 
-/**
- * Signs up a user and returns a promise that resolves to an object with the following properties:
- *
- * @param {IUserSignUp} data - An object containing the necessary data for user sign up, including username, email, and password.
- * @return {Promise<{ success: boolean; savedUser?: Document; error?: string }>} - A promise that resolves to an object with the following properties:
- *   - success: A boolean indicating whether the sign up was successful or not.
- *   - savedUser: (optional) A Document representing the saved user in the database.
- *   - error: (optional) A string describing the error that occurred during sign up.
- */
+
 async function signUpUser(data: IUserSignUp): Promise<{ success: boolean; savedUser?: Document; error?: string }> {
   const { username, email, password } = data
   try {
@@ -42,17 +34,7 @@ async function signUpUser(data: IUserSignUp): Promise<{ success: boolean; savedU
   }
 }
 
-/**
- * Log in a user with the provided credentials and return a success
- * flag, an optional token, and an optional error message.
- *
- * @param {IUserLogin} data - The user login data containing the email
- * and password.
- * @return {Promise<{ success: boolean; token?: string; error?: string }>}
- * An object with a success flag indicating if the login was successful,
- * an optional token if the login was successful, and an optional error
- * message if the login was unsuccessful.
- */
+
 async function loginUser(data: IUserLogin): Promise<{ success: boolean; token?: string; error?: string }> {
   const { email, password } = data;
   try {
@@ -76,7 +58,7 @@ async function loginUser(data: IUserLogin): Promise<{ success: boolean; token?: 
 
     const token = JwtUtils.generateToken(tokenData, "1h");
 
-    return { success: true, token };
+    return { success: true, token};
   } catch (error) {
     return {
       success: false,
@@ -86,12 +68,6 @@ async function loginUser(data: IUserLogin): Promise<{ success: boolean; token?: 
 } 
 
 
-/**
- * Deletes a user by their ID.
- *
- * @param {string} id - The ID of the user to be deleted.
- * @return {Promise<{ success: boolean; error?: string }>} - A promise that resolves to an object with a success property indicating whether the user was deleted successfully, and an optional error property with the error message if any.
- */
 async function deleteUser(id: string): Promise<{ success: boolean; error?: string }> {
   try {
     const user = await User.findById(id);

@@ -2,7 +2,6 @@ import { IRoom } from "../interfaces/room/room.interface";
 import Hotel from "../models/hotel.models";
 import Room from "../models/room.models";
 
-
 export const FindRoomAll = async (): Promise<IRoom[] | {error: string}> => {
     try {
         const rooms = await Room.find()
@@ -14,7 +13,6 @@ export const FindRoomAll = async (): Promise<IRoom[] | {error: string}> => {
         };
     }
 }
-
 
 export const FindRoomById = async (id: string): Promise<IRoom | {error: string}> => {
     try {
@@ -28,8 +26,7 @@ export const FindRoomById = async (id: string): Promise<IRoom | {error: string}>
     }
 }
 
-
-export const createRoom = async (room: IRoom): Promise<{room: IRoom; } | {error:string}> => {
+export const createRoom = async (room: IRoom): Promise< IRoom | {error:string}> => {
     try {
         const roomCheck = await Room.findOne({ roomNumber: room.roomNumber })
         const hotelCheck = await Hotel.findById(room.hotel)
@@ -49,7 +46,7 @@ export const createRoom = async (room: IRoom): Promise<{room: IRoom; } | {error:
         })
         const saveRoom = await newRoom.save()
         if (!saveRoom) { throw new Error("a ocurrido un error al generar la habitacion") }
-        return { room: saveRoom }
+        return saveRoom 
     } catch (error) {
         return {
             error: "DatabaseManager: createRoom Internal server error" + error,
@@ -57,8 +54,7 @@ export const createRoom = async (room: IRoom): Promise<{room: IRoom; } | {error:
     }
 }
 
-
-export const updateRoom = async (id: string, updatedData: IRoom): Promise<{ room: IRoom; } | {error:string}> => {
+export const updateRoom = async (id: string, updatedData: IRoom): Promise< IRoom | {error:string}> => {
     try {
         const room = await Room.findOne({ _id: id });
         if (!room) {
@@ -83,14 +79,13 @@ export const updateRoom = async (id: string, updatedData: IRoom): Promise<{ room
             throw new Error("Ocurrió un error al actualizar la habitacion");
         }
 
-        return { room: updatedRoom };
+        return updatedRoom;
     } catch (error) {
         return {
             error: "DatabaseManager: updateRoom Internal server error" + error,
         };
     }
 }
-
 
 /**
  * Deletes a room from the database.

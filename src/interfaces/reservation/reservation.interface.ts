@@ -14,3 +14,9 @@ export interface IReservation extends Document {
     deletedAt: Date;
     Comments: String;
 }
+
+export interface IReservationCreate extends Omit<IReservation, "createdAt" | "updatedAt" | "deletedAt"> {}
+
+export interface IReservationFetch extends IReservation {
+    _id: string
+}

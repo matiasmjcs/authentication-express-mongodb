@@ -6,9 +6,9 @@ export class HotelControllers implements IHotelControllers {
 
   async findAll(_req: Request, res: Response): Promise<Response> {
     try {
-      const response = await FindHotelAll()
+      const hotels = await FindHotelAll()
       return res.status(200).json({
-        response
+        hotels
       })
     } catch (error) {
       return res.status(500).json({
