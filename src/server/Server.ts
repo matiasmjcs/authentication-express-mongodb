@@ -6,6 +6,7 @@ import { IServer } from "../interfaces/server/server.interface";
 import { hotelRouter } from "../router/hotel.route";
 import { connect } from "../database/databaseConnector.database";
 import { roomRouter } from "../router/room.route";
+import { categoryRouter } from "../router/category.route";
 config();
 export default class Server implements IServer{
   private app: Application;
@@ -37,6 +38,7 @@ export default class Server implements IServer{
     userRouter(this.app);
     roomRouter(this.app);
     hotelRouter(this.app);
+    categoryRouter(this.app);
   }
 
   errorHandler: ErrorRequestHandler = (err: any, req: Request, res: Response, next: express.NextFunction) => {
