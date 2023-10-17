@@ -1,54 +1,35 @@
-import { errorCatch } from "../interfaces/errorCatch/errorCatch.interface";
 import { IRoom } from "../interfaces/room/room.interface";
 import Hotel from "../models/hotel.models";
 import Room from "../models/room.models";
 
-/**
- * Retrieves all rooms from the database.
- *
- * @return {Promise<Room[] | { success: boolean, error: string }>} The list of rooms, or an error object if an error occurred.
- */
-export const FindRoomAll = async (): Promise<IRoom[] | errorCatch> => {
+
+export const FindRoomAll = async (): Promise<IRoom[] | {error: string}> => {
     try {
         const rooms = await Room.find()
         if (!rooms) { throw new Error("no se a encontrado la lista de habitaciones") }
         return rooms
     } catch (error) {
         return {
-            success: false,
             error: "DatabaseManager: FindRoomAll Internal server error" + error,
         };
     }
 }
 
-/**
- * Retrieves a room from the database based on the provided ID.
- *
- * @param {string} id - The ID of the room to retrieve.
- * @return {Promise<Room | { success: boolean, error: string }>} - The retrieved room or an error object.
- */
-export const FindRoomById = async (id: string): Promise<IRoom | errorCatch> => {
+
+export const FindRoomById = async (id: string): Promise<IRoom | {error: string}> => {
     try {
         const room = await Room.findOne({ _id: id })
         if (!room) { throw new Error("no se a encontrado la habitacion") }
         return room
     } catch (error) {
         return {
-            success: false,
             error: "DatabaseManager: FindRoomById Internal server error" + error,
         };
     }
 }
 
-/**
- * Create a new room in the database.
- *
- * @param {IRoom} room - The room object to be created.
- * @return {Promise<{success: boolean, room: IRoom} | {success: boolean, error: string}>} 
- *         A promise that resolves to an object containing the success status and the created room,
- *         or an object with the success status and an error message.
- */
-export const createRoom = async (room: IRoom): Promise<{ success: boolean; room: IRoom; } | errorCatch> => {
+
+export const createRoom = async (room: IRoom): Promise<{room: IRoom; } | {error:string}> => {
     try {
         const roomCheck = await Room.findOne({ roomNumber: room.roomNumber })
         const hotelCheck = await Hotel.findById(room.hotel)
@@ -68,23 +49,16 @@ export const createRoom = async (room: IRoom): Promise<{ success: boolean; room:
         })
         const saveRoom = await newRoom.save()
         if (!saveRoom) { throw new Error("a ocurrido un error al generar la habitacion") }
-        return { success: true, room: saveRoom }
+        return { room: saveRoom }
     } catch (error) {
         return {
-            success: false,
             error: "DatabaseManager: createRoom Internal server error" + error,
         };
     }
 }
 
-/**
- * Updates a room in the database.
- *
- * @param {string} id - The ID of the room to be updated.
- * @param {IRoom} updatedData - The updated data for the room.
- * @return {Promise<{ success: boolean, room: IRoom } | { success: boolean, error: string }>} - Returns a promise that resolves to either the updated room object or an error message.
- */
-export const updateRoom = async (id: string, updatedData: IRoom): Promise<{ success: boolean; room: IRoom; } | errorCatch> => {
+
+export const updateRoom = async (id: string, updatedData: IRoom): Promise<{ room: IRoom; } | {error:string}> => {
     try {
         const room = await Room.findOne({ _id: id });
         if (!room) {
@@ -109,22 +83,22 @@ export const updateRoom = async (id: string, updatedData: IRoom): Promise<{ succ
             throw new Error("Ocurrió un error al actualizar la habitacion");
         }
 
-        return { success: true, room: updatedRoom };
+        return { room: updatedRoom };
     } catch (error) {
         return {
-            success: false,
             error: "DatabaseManager: updateRoom Internal server error" + error,
         };
     }
 }
 
+
 /**
  * Deletes a room from the database.
  *
- * @param {string} id - The ID of the room to delete.
- * @return {Promise<{ success: boolean, message?: string, error?: string }>} - A promise that resolves to an object with a success boolean indicating if the room was deleted successfully, and an optional message or error string.
+ * @param {string} id - The id of the room to be deleted.
+ * @return {Promise<{ message?: string; error?: string; }>} - A promise that resolves to an object with a message property if the room is deleted successfully, or an error property if there is an internal server error.
  */
-export const deleteRoom = async (id: string): Promise<{ success: boolean; message?: string; error?: string; }> => {
+export const deleteRoom = async (id: string): Promise<{ message?: string; error?: string; }> => {
     try {
         const room = await Room.findOneAndDelete({ _id: id });
 
@@ -132,10 +106,9 @@ export const deleteRoom = async (id: string): Promise<{ success: boolean; messag
             throw new Error("No se ha encontrado la habitación para eliminar");
         }
 
-        return { success: true, message: "Habitación eliminada exitosamente" };
+        return { message: "Habitación eliminada exitosamente" };
     } catch (error) {
         return {
-            success: false,
             error: "DatabaseManager: deleteRoom Internal server error" + error,
         };
     }

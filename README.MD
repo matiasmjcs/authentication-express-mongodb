@@ -35,8 +35,6 @@ Hotel-app-express-mongodb/
  │    │    ├── user/
  │    │    │    ├── user.interface.ts
  │    │    │    └── userControllers.interface.ts
- │    │    ├── utils/
- │    │    │    ├── passwordUtils.interface.ts
  │    ├── models/
  │    │    ├── hotel.models.ts
  │    │    ├── room.models.ts

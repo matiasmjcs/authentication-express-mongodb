@@ -1,8 +1,8 @@
-import mongoose, { Schema, model } from 'mongoose';
-import { IRoomMondodb } from '../interfaces/room/room.interface';
+import { Schema, model } from 'mongoose';
+import { IRoom } from '../interfaces/room/room.interface';
 
 
-const roomSchema = new Schema<IRoomMondodb>({
+const roomSchema = new Schema<IRoom>({
   roomNumber: { type: String, required: true },
   roomType: { type: String, required: true },
   pricePerNight: { type: Number, required: true },
@@ -15,6 +15,6 @@ const roomSchema = new Schema<IRoomMondodb>({
   hotel: { type: Schema.Types.ObjectId, ref: 'Hotel' }
 });
 
-const Room = model<IRoomMondodb>('Rooms', roomSchema);
+const Room = model<IRoom>('Room', roomSchema);
 
 export default Room;

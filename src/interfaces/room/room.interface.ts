@@ -1,6 +1,6 @@
 import mongoose, { Document } from "mongoose";
 
-export interface IRoom {
+export interface IRoom extends Document{
   roomNumber: string;
   roomType: string;
   pricePerNight: number;
@@ -13,7 +13,6 @@ export interface IRoom {
   hotel: mongoose.Schema.Types.ObjectId; 
 }
 
-export interface IRoomMondodb extends Document ,IRoom{}
 
 export interface IRoomFetch extends IRoom{
   _id: string

@@ -1,16 +1,15 @@
 import mongoose, { Document } from "mongoose";
 
 
-export interface IHotelMongodb {
+export interface IHotel extends Document {
     name: string
     description: string
     location: string
     contact: string
+    category: mongoose.Schema.Types.ObjectId
     rooms: mongoose.Schema.Types.ObjectId[]
 }
 
-export interface IHotel extends Omit<IHotelMongodb,"rooms"> {}
-
-export interface IHotelMongodbFetch extends Document, IHotelMongodb {
+export interface IHotelFetch extends IHotel {
     _id: string
 }

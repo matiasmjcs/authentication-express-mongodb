@@ -3,13 +3,7 @@ import { createHotel, deleteHotel, FindHotelAll, FindHotelById, updateHotel } fr
 import { IHotelControllers } from "../interfaces/hotel/hotelControllers.interface";
 
 export class HotelControllers implements IHotelControllers {
-  /**
-   * Finds all the hotels.
-   *
-   * @param {Request} _req - the request object
-   * @param {Response} res - the response object
-   * @return {Promise<Response>} the JSON response containing the hotel information
-   */
+
   async findAll(_req: Request, res: Response): Promise<Response> {
     try {
       const response = await FindHotelAll()
@@ -22,13 +16,7 @@ export class HotelControllers implements IHotelControllers {
       });
     }
   }
-  /**
-   * Find a hotel by ID.
-   *
-   * @param {Request} req - the request object
-   * @param {Response} res - the response object
-   * @return {Promise<Response>} a JSON response with the hotel information
-   */
+ 
   async findById(req: Request, res: Response): Promise<Response> {
     try {
       const { id } = req.params
@@ -42,13 +30,7 @@ export class HotelControllers implements IHotelControllers {
       });
     }
   }
-  /**
-   * Creates a new hotel using the provided request body.
-   *
-   * @param {Request} req - The request object containing the hotel details.
-   * @param {Response} res - The response object to send the result.
-   * @return {Promise<Response>} A Promise that resolves when the hotel is created.
-   */
+
   async create(req: Request, res: Response): Promise<Response> {
     try {
       const reqBody = req.body
@@ -60,13 +42,7 @@ export class HotelControllers implements IHotelControllers {
       });
     }
   }
-  /**
-   * Updates a hotel with the given ID and body.
-   *
-   * @param {Request} req - the request object
-   * @param {Response} res - the response object
-   * @return {Promise<Response>} - a promise that resolves when the update is complete
-   */
+ 
   async update(req: Request, res: Response): Promise<Response> {
     try {
       const { id } = req.params
@@ -80,13 +56,7 @@ export class HotelControllers implements IHotelControllers {
     }
   }
 
-  /**
-   * Deletes a hotel by its ID.
-   *
-   * @param {Request} req - The request object.
-   * @param {Response} res - The response object.
-   * @return {Promise<Response>} The response object.
-   */
+
   async delete(req: Request, res: Response): Promise<Response> {
     try {
       const { id } = req.params;

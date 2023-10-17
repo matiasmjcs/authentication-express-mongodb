@@ -1,9 +1,9 @@
 import { IUserLogin, IUserSignUp } from "../interfaces/user/user.interface";
 import User from "../models/user.models";
-import bcryptjs from "bcryptjs";
 import { Document } from "mongoose";
-import jwt from "jsonwebtoken";
 import { config } from 'dotenv'; 
+import { JwtUtils } from "../utils/jwt.utils";
+import { PasswordUtils } from "../utils/password.utils";
 config();
 
 /**
@@ -24,8 +24,7 @@ async function signUpUser(data: IUserSignUp): Promise<{ success: boolean; savedU
       return { success: false, error: "User already exists" };
     }
 
-    const salt = await bcryptjs.genSalt(10);
-    const hashedPassword = await bcryptjs.hash(password, salt);
+    const hashedPassword = await PasswordUtils.hashPassword(password);
 
     const newUser = new User({
       username,
@@ -63,7 +62,7 @@ async function loginUser(data: IUserLogin): Promise<{ success: boolean; token?: 
       return { success: false, error: "Usuario no encontrado" };
     }
 
-    const validPassword = await bcryptjs.compare(password, user.password!);
+    const validPassword = await PasswordUtils.comparePasswords(password, user.password!);
 
     if (!validPassword) {
       return { success: false, error: "Contraseña inválida" };
@@ -75,9 +74,7 @@ async function loginUser(data: IUserLogin): Promise<{ success: boolean; token?: 
       email: user.email,
     };
 
-    const token = jwt.sign(tokenData, process.env.TOKEN_SECRET!, {
-      expiresIn: "1d",
-    });
+    const token = JwtUtils.generateToken(tokenData, "1h");
 
     return { success: true, token };
   } catch (error) {

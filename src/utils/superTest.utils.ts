@@ -1,4 +1,4 @@
-import express, { Application, Router } from "express";
+import express, { Application } from "express";
 import supertest from "supertest";
 
 interface RouteFunction {
@@ -11,7 +11,7 @@ interface RouteFunction {
  * @param {RouteFunction} route - The route function to be used by the server.
  * @return {supertest} - A supertest instance representing the test server.
  */
-export function testServer(route:RouteFunction) {
+export function testServer(route:RouteFunction): supertest.SuperTest<supertest.Test> {
 	const app:Application = express();
 	app.use(express.json());
 	route(app);
